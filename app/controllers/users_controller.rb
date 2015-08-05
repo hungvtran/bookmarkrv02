@@ -12,8 +12,13 @@ class UsersController < ApplicationController
     if @user.save
       render 'show'
     else
+      flash.now[:danger] = 'Invalid email/password combination'
       render 'new'
     end
+  end
+
+  def update
+  	render :text => "file has been  uploaded"
   end
 
     private
