@@ -12,13 +12,22 @@ class UsersController < ApplicationController
     if @user.save
       render 'show'
     else
-      flash.now[:danger] = 'Invalid email/password combination'
       render 'new'
     end
   end
 
+  def edit
+    @user = User.find(params[:id])
+  end
+
   def update
-  	render :text => "file has been  uploaded"
+    @user = User.find(params[:id])
+    #if @user.update_attributes(user_params)
+      redirect_to root_path
+      flash[:notice] = 'upload successful'
+    #else
+      #render 'edit'
+    #end
   end
 
     private
