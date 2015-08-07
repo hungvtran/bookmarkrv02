@@ -23,6 +23,7 @@ class UsersController < ApplicationController
   end
 
   def update
+  #if !params[:user][:bookmark].nil?
   uploaded_io = params[:user][:bookmark]
   array = []
   @bookmarks = []
@@ -35,10 +36,13 @@ class UsersController < ApplicationController
   end 
   @bookmarks.slice!(0)
   render :text => @bookmarks
+  #else
+    #render :text => "Please pick a file"
+  #end
   end
   
   def upload_file
-    @user = @current_user
+      @user ||= User.find_by(id: session[:user_id])
   end
 
 
