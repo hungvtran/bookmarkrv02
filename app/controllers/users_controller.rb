@@ -35,6 +35,8 @@ class UsersController < ApplicationController
   @bookmarks << bookmark.to_s.match(/(["'])(?:(?=(\\?))\2.)*?\1/).to_s.gsub('"', '') unless bookmark == nil
   end 
   @bookmarks.slice!(0)
+  #need to somehow add @bookmarks to user.bookmark database
+  #params[:user][:bookmark] = @bookmarks
   render :text => @bookmarks
   #else
     #render :text => "Please pick a file"
@@ -43,6 +45,10 @@ class UsersController < ApplicationController
   
   def upload_file
       @user ||= User.find_by(id: session[:user_id])
+  end
+
+    def bookmarks
+      @current_user ||= User.find_by(id: session[:user_id])
   end
 
 
