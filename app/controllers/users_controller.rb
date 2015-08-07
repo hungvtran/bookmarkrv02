@@ -21,13 +21,18 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:id])
-    #if @user.update_attributes(user_params)
-      redirect_to root_path
-      flash[:notice] = 'upload successful'
-    #else
-      #render 'edit'
-    #end
+  uploaded_io = params[:user][:bookmark]
+  array = []
+  @bookmarks = []
+  file = uploaded_io.read
+  file.each_line do |line|
+  array << line.match(/A HREF=(["'])(?:(?=(\\?))\2.)*?\1/)
+  end
+  array.each do | bookmark |
+  @bookmarks << bookmark.to_s.match(/(["'])(?:(?=(\\?))\2.)*?\1/).to_s.gsub('"', '') unless bookmark == nil
+  end 
+  @bookmarks.slice!(0)
+  render :text => @bookmarks
   end
 
     private
