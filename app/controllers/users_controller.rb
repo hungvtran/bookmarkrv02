@@ -34,6 +34,7 @@ class UsersController < ApplicationController
   @bookmarks.slice!(0)
   render :text => @bookmarks
   end
+  
 
     private
 
