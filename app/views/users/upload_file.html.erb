@@ -3,6 +3,6 @@
 <%= current_user.name %>
 
 <%= form_for @user do |f| %>
-	<%= f.file_field :bookmark %>
+	<%= f.file_field :bookmarks %>
 	<%= f.submit "Upload File", class: "btn btn-primary" %>
 <% end %>

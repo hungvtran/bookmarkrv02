@@ -24,7 +24,7 @@ class UsersController < ApplicationController
 
   def update
   #if !params[:user][:bookmark].nil?
-  uploaded_io = params[:user][:bookmark]
+  uploaded_io = params[:user][:bookmarks]
   array = []
   @bookmarks = []
   file = uploaded_io.read
@@ -36,11 +36,14 @@ class UsersController < ApplicationController
   end 
   @bookmarks.slice!(0)
   #need to somehow add @bookmarks to user.bookmark database
-  #params[:user][:bookmark] = @bookmarks
-  render :text => @bookmarks
+
+  params[:user][:bookmarks] = @bookmarks
+  render :text => current_user.bookmarks
   #else
     #render :text => "Please pick a file"
   #end
+  current_user.update(bookmarks:@bookmarks)
+  #current_user.bookmarks.update_attributes(user_params) doesn't work
   end
   
   def upload_file
@@ -48,7 +51,8 @@ class UsersController < ApplicationController
   end
 
     def bookmarks
-      @current_user ||= User.find_by(id: session[:user_id])
+      current_user
+      #@current_user ||= User.find_by(id: session[:user_id])
   end
 
 
