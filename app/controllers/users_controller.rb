@@ -1,4 +1,12 @@
 class UsersController < ApplicationController
+  #add to before_action upload_bookmarks, bookmarks, etc
+  before_action :logged_in_user, only: [:edit, :update, :show]
+  before_action :correct_user,   only: [:edit, :update, :show]
+
+  def index
+    @users = User.all
+  end
+
   def show
   	@user = User.find(params[:id])
   end
@@ -37,12 +45,12 @@ class UsersController < ApplicationController
   @bookmarks.slice!(0)
   #need to somehow add @bookmarks to user.bookmark database
 
-  params[:user][:bookmarks] = @bookmarks
-  render :text => current_user.bookmarks
+  #params[:user][:bookmarks] = @bookmarks
+  render :text => @bookmarks
   #else
     #render :text => "Please pick a file"
   #end
-  current_user.update(bookmarks:@bookmarks)
+  #current_user.update(bookmarks:@bookmarks)
   #current_user.bookmarks.update_attributes(user_params) doesn't work
   end
   
@@ -62,4 +70,20 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :password,
                                    :password_confirmation)
     end
+
+    def logged_in_user
+        unless logged_in?
+        flash[:danger] = "Please log in."
+        redirect_to login_url
+      end
+    end
+
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to(root_url) unless current_user?(@user)
+    end
+
+  def current_user?(user)
+    user == current_user
+  end
 end

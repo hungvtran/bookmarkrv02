@@ -1,7 +1,4 @@
 <h1>User Profile</h1>
 <%= @user.name %>
+<%= @user.email %>
 
-<%= form_for @user do |f| %>
-	<%= f.file_field :bookmark %>
-	<%= f.submit "Upload File", class: "btn btn-primary" %>
-<% end %>
